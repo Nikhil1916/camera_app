@@ -1,6 +1,6 @@
 const image_btn = document.querySelector(".image-btn");
 const record_btn = document.querySelector(".record-btn");
-const timer_cont = document.querySelector(".timer-cont");
+const timer = document.querySelector(".timer");
 image_btn.addEventListener("click", function () {
   image_btn.classList.add("scale-capture");
   setTimeout(() => {
@@ -13,10 +13,10 @@ let isRecord = false;
 record_btn.addEventListener("click", function () {
   if (!isRecord) {
     record_btn.classList.add("scale-record");
-    timer_cont.style.display = "block";
+    timer.style.display = "block";
   } else {
     record_btn.classList.remove("scale-record");
-    timer_cont.style.display = "none";
+    timer.style.display = "none";
   }
   isRecord = !isRecord;
 })

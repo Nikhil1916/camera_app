@@ -24,10 +24,11 @@
 .filters {
   display: flex;
   flex-direction: column;
+  margin-bottom: 1rem;
 }
 
 .filter {
-  width: 6rem;
+  width: 7rem;
   height: 4rem;
   background-image: url(https://picsum.photos/seed/picsum/200/300);
   background-size: 100% 100%;
@@ -103,7 +104,7 @@ i {
 .video-cont {
   height: 90%;
   width: 90%;
-  background-color: red;
+  /* background-color: red; */
   margin: 20px;
 }
 
@@ -148,7 +149,7 @@ video {
   }
 }
 
-.timer-cont {
+.timer {
   display: none;
   width: 5rem;
 }
