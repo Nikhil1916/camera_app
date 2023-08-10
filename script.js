@@ -2,13 +2,14 @@ const image_btn = document.querySelector(".image-btn");
 const record_btn = document.querySelector(".record-btn");
 const timer = document.querySelector(".timer");
 const video = document.querySelector("video");
+let timerInterval;
 
 const constraints = {
   audio: false,
   video: true
 }
 
-// this will stor video media stream
+// this will store video media stream
 const chunks = [];
 let mediaRecorder;
 
@@ -51,18 +52,18 @@ record_btn.addEventListener("click", function () {
     mediaRecorder.start();
     record_btn.classList.add("scale-record");
     timer.style.display = "block";
-    setTimer();
+    startTimer();
   } else {
     mediaRecorder.stop();
     record_btn.classList.remove("scale-record");
     timer.style.display = "none";
+    stopTimer();
   }
   isRecord = !isRecord;
 })
 
-function setTimer() {
-  let counter = 0;
-  setInterval(() => {
+function startTimer() {
+  timerInterval = setInterval(() => {
     let hrs = "00";
     let mins = "00";
     let secs = "00";
@@ -99,5 +100,10 @@ function setTimer() {
     }
     console.log(hrs + ':' + mins + ':' + secs);
     timer.innerHTML = hrs + ':' + mins + ':' + secs;
-  }, 1000)
+  }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timerInterval);
+  timer.innerHTML = "00:00:00";
 }
