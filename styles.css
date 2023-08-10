@@ -102,8 +102,8 @@ i {
 }
 
 .video-cont {
-  height: 90%;
-  width: 90%;
+  height: 100%;
+  width: 100%;
   /* background-color: red; */
   margin: 20px;
 }
@@ -116,6 +116,10 @@ video {
 .gallery-cont {
   position: absolute;
   bottom: 10rem;
+  right: 4rem;
+}
+.cursor-pointer {
+  cursor: pointer;
 }
 
 .scale-capture {
