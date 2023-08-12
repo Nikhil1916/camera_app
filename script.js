@@ -2,7 +2,8 @@ const image_btn = document.querySelector(".image-btn");
 const record_btn = document.querySelector(".record-btn");
 const timer = document.querySelector(".timer");
 const video = document.querySelector("video");
-let timerInterval;
+let timerIntervalId;
+const allFilters = document.querySelectorAll(".filter");
 
 const constraints = {
   audio: false,
@@ -40,6 +41,19 @@ navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
 
 image_btn.addEventListener("click", function () {
   image_btn.classList.add("scale-capture");
+  let canvas = document.createElement('canvas');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+
+  let ctx = canvas.getContext('2d');
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+  const imageUrl = canvas.toDataURL('image/jpeg');
+  const imageLink = document.createElement("a");
+  imageLink.href = imageUrl;
+  console.log(imageUrl);
+  imageLink.download = "myImg.jpeg";
+  imageLink.click();
   setTimeout(() => {
     image_btn.classList.remove("scale-capture");
   }, 1000)
@@ -63,47 +77,30 @@ record_btn.addEventListener("click", function () {
 })
 
 function startTimer() {
-  timerInterval = setInterval(() => {
-    let hrs = "00";
-    let mins = "00";
-    let secs = "00";
+  let counter = 3590;
+  timerIntervalId = setInterval(() => {
     counter++;
-    let count = counter;
-    console.log(count);
-    if (count > 3600) {
-      if (count / 3600 > 9) {
-        hrs = parseInt(count / 3600);
-      } else {
-        hrs = "0" + parseInt(count / 3600);
-      }
-      count = parseInt(count % 3600);
-    }
-
-
-    if (count > 60) {
-      if (count / 60 > 9) {
-        mins = parseInt(count / 60);
-      } else {
-        mins = "0" + parseInt(count / 60);
-      }
-      count = parseInt(count % 60);
-    }
-
-
-    if (count > 0) {
-      secs = count % 60;
-      if (count > 9) {
-        secs = count;
-      } else {
-        secs = "0" + count;
-      }
-    }
-    console.log(hrs + ':' + mins + ':' + secs);
+    let totalSecs = counter;
+    let hrs = parseInt(totalSecs / 3600);
+    totalSecs = parseInt(totalSecs % 3600);
+    let mins = parseInt(totalSecs / 60);
+    totalSecs = parseInt(totalSecs % 60);
+    let secs = totalSecs;
+    hrs = hrs < 10 ? `0${hrs}` : hours;
+    mins = mins < 10 ? `0${mins}` : mins;
+    secs = secs < 10 ? `0${secs}` : secs;
     timer.innerHTML = hrs + ':' + mins + ':' + secs;
   }, 1000);
 }
 
 function stopTimer() {
-  clearInterval(timerInterval);
+  clearInterval(timerIntervalId);
   timer.innerHTML = "00:00:00";
 }
+// console.log(allFilters);
+allFilters.forEach((filter) => {
+  filter.addEventListener("click", function (e) {
+    console.log(filter);
+    // when we add filter bg-color as canvas takes a screenshot and creates puckture so our filter will also come with that
+  })
+})
