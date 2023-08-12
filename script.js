@@ -2,8 +2,10 @@ const image_btn = document.querySelector(".image-btn");
 const record_btn = document.querySelector(".record-btn");
 const timer = document.querySelector(".timer");
 const video = document.querySelector("video");
+const filter_layer = document.querySelector(".filter-layer");
 let timerIntervalId;
 const allFilters = document.querySelectorAll(".filter");
+let filterColor = "transparent";
 
 const constraints = {
   audio: false,
@@ -47,6 +49,11 @@ image_btn.addEventListener("click", function () {
 
   let ctx = canvas.getContext('2d');
   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+  // jb image add krenge canvas pe to filter color bhi chahiye as vo sirf vido ka dekh rha aur uska screenshot lega to alag se usme color fill krna pdega
+  ctx.fillStyle = filterColor;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
 
   const imageUrl = canvas.toDataURL('image/jpeg');
   const imageLink = document.createElement("a");
@@ -98,9 +105,14 @@ function stopTimer() {
   timer.innerHTML = "00:00:00";
 }
 // console.log(allFilters);
-allFilters.forEach((filter) => {
-  filter.addEventListener("click", function (e) {
-    console.log(filter);
+allFilters.forEach((filterEle) => {
+  filterEle.addEventListener("click", function (e) {
     // when we add filter bg-color as canvas takes a screenshot and creates puckture so our filter will also come with that
+
+    //as eg orabge vli class ka background color chahiye
+    filterColor = window.getComputedStyle(filterEle).getPropertyValue('background-color');
+    console.log(filterColor);
+    // filterColor = filter.classList[1];
+    filter_layer.style.backgroundColor = filterColor;
   })
 })

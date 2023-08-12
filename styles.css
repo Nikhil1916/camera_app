@@ -19,6 +19,7 @@
   flex-direction: column;
   gap: 2rem;
   margin-left: 2rem;
+  z-index: 1;
 }
 
 .filters {
@@ -34,21 +35,17 @@
   background-size: 100% 100%;
   background-blend-mode: color-burn;
 }
-
 .brown {
   background-color: #ffa50052;
 }
-
 .orange {
   background-color: #a52a2a59;
 }
-
-.transparent {
-  background-color: transparent;
-}
-
 .pink {
   background-color: #ffc0cb57;
+}
+.transparent {
+  background-color: transparent;
 }
 
 .right-panel {
@@ -56,12 +53,14 @@
   display: flex;
   flex-direction: column;
   gap: 3rem;
+  z-index: 1;
 }
 
 .action-btns {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  z-index: 1;
 }
 
 .image-btn {
@@ -158,6 +157,11 @@ video {
 }
 
 .filter-layer {
-  /* width: 100vw;
-  height: 100vh; */
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* background-blend-mode: color-burn; */
+  /* z-index: 1; */
 }
