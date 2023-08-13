@@ -1,3 +1,4 @@
+const uid = new ShortUniqueId();
 const image_btn = document.querySelector(".image-btn");
 const record_btn = document.querySelector(".record-btn");
 const timer = document.querySelector(".timer");
@@ -6,6 +7,8 @@ const filter_layer = document.querySelector(".filter-layer");
 let timerIntervalId;
 const allFilters = document.querySelectorAll(".filter");
 let filterColor = "transparent";
+const gallery_cont = document.querySelector(".gallery-cont");
+
 
 const constraints = {
   audio: false,
@@ -30,14 +33,31 @@ navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
 
   mediaRecorder.addEventListener("stop", () => {
     console.log("rec stop");
-    console.log(chunks.length);
+    // console.log(chunks.length);
     let blob = new Blob(chunks, { mimeType: "video/mp4" });
     let videoUrl = URL.createObjectURL(blob);
-    const videoLink = document.createElement("a");
-    videoLink.href = videoUrl;
-    console.log(videoUrl);
-    videoLink.download = "myVideo.mp4";
-    videoLink.click();
+    if (db) {
+      let videoID = uid();
+      let dbTransaction = db.transaction("video", "readwrite");
+      let videoStore = dbTransaction.objectStore("video");
+      let videoEntry = {
+        id: videoID,
+        blobData: blob,
+      };
+      let addRequest = videoStore.add(videoEntry);
+      addRequest.onsuccess = function () {
+        console.log(
+          "videoEntry added to the videoStore",
+          addRequest.result
+        );
+      };
+
+    }
+    // const videoLink = document.createElement("a");
+    // videoLink.href = videoUrl;
+    // console.log(videoUrl);
+    // videoLink.download = "myVideo.mp4";
+    // videoLink.click();
   });
 })
 
@@ -56,11 +76,29 @@ image_btn.addEventListener("click", function () {
 
 
   const imageUrl = canvas.toDataURL('image/jpeg');
-  const imageLink = document.createElement("a");
-  imageLink.href = imageUrl;
-  console.log(imageUrl);
-  imageLink.download = "myImg.jpeg";
-  imageLink.click();
+  if (db) {
+    let transaction = db.transaction("image", "readwrite");
+    // get an object store to operate on it
+    let imageStore = transaction.objectStore("image"); // (2)
+    let imageEntry = {
+      id: uid(),
+      url: imageUrl
+    };
+    let request = imageStore.add(imageEntry); // (3)
+
+    request.onsuccess = function () { // (4)
+      console.log("image added to the store", request.result);
+    };
+
+    request.onerror = function () {
+      console.log("Error", request.error);
+    };
+  }
+  // const imageLink = document.createElement("a");
+  // imageLink.href = imageUrl;
+  // // console.log(imageUrl);
+  // imageLink.download = "myImg.jpeg";
+  // imageLink.click();
   setTimeout(() => {
     image_btn.classList.remove("scale-capture");
   }, 1000)
@@ -84,7 +122,7 @@ record_btn.addEventListener("click", function () {
 })
 
 function startTimer() {
-  let counter = 3590;
+  let counter = 0;
   timerIntervalId = setInterval(() => {
     counter++;
     let totalSecs = counter;
@@ -111,8 +149,10 @@ allFilters.forEach((filterEle) => {
 
     //as eg orabge vli class ka background color chahiye
     filterColor = window.getComputedStyle(filterEle).getPropertyValue('background-color');
-    // console.log(filterColor);
-    // filterColor = filter.classList[1];
     filter_layer.style.backgroundColor = filterColor;
   })
+});
+
+gallery_cont.addEventListener("click", () => {
+  location.assign("./gallery.html");
 })
