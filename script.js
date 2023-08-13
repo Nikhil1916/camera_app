@@ -111,7 +111,7 @@ allFilters.forEach((filterEle) => {
 
     //as eg orabge vli class ka background color chahiye
     filterColor = window.getComputedStyle(filterEle).getPropertyValue('background-color');
-    console.log(filterColor);
+    // console.log(filterColor);
     // filterColor = filter.classList[1];
     filter_layer.style.backgroundColor = filterColor;
   })

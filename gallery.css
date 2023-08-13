@@ -1,0 +1,34 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  text-align: center;
+  margin: 0;
+}
+
+.back {
+  width: 5rem;
+  height: 5rem;
+  background-color: black;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 5rem;
+  right: 5rem;
+}
+
+.back:hover {
+  cursor: pointer;
+}
+
+.gallery-cont {
+  background-color: lightcyan;
+  width: 100vw;
+  height: 100vh;
+}
