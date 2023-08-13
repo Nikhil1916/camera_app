@@ -9,7 +9,6 @@ const allFilters = document.querySelectorAll(".filter");
 let filterColor = "transparent";
 const gallery_cont = document.querySelector(".gallery-cont");
 
-
 const constraints = {
   audio: false,
   video: true
