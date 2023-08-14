@@ -17,6 +17,7 @@ openRequest.onerror = function () {
 };
 
 openRequest.onsuccess = function () {
+  console.log("connection succesful");
   db = openRequest.result;
   // continue working with database using db object
 }; 
