@@ -32,10 +32,15 @@ function dbCheck() {
           <div class="cursor-pointer download action-btn">DOWNLOAD</div>
           `;
           gallery_cont.append(imageEl);
-          console.log(imageEl,' pl');
+          console.log(imageEl, ' pl');
           const delete_btn = imageEl.querySelector(".delete");
-          delete_btn.addEventListener("click",()=>{
+          delete_btn.addEventListener("click", () => {
             deleteFnc(image?.id);
+          });
+
+          const download_btn = imageEl.querySelector(".download");
+          download_btn.addEventListener("click", () => {
+            downloadFnc(image);
           })
         })
       }
@@ -67,8 +72,13 @@ function dbCheck() {
           gallery_cont.append(videoEl);
           // console.log(videoEl,' pl');
           const delete_btn = videoEl.querySelector(".delete");
-          delete_btn.addEventListener("click",()=>{
+          delete_btn.addEventListener("click", () => {
             deleteFnc(video?.id, 'video');
+          });
+
+          const download_btn = videoEl.querySelector(".download");
+          download_btn.addEventListener("click", () => {
+            downloadFnc(video, 'video');
           })
         })
       }
@@ -76,9 +86,9 @@ function dbCheck() {
   }
 }
 
-function deleteFnc(mediaId,mediaType = 'image') {
+function deleteFnc(mediaId, mediaType = 'image') {
   // console.log(mediaId,"delete fnc called");
-  if(mediaType == 'image') {
+  if (mediaType == 'image') {
     const imageTransaction = db.transaction("image", "readwrite"); // (1)
     const imageStore = imageTransaction.objectStore("image");
     imageStore.delete(mediaId);
@@ -88,6 +98,22 @@ function deleteFnc(mediaId,mediaType = 'image') {
     videoStore.delete(mediaId);
   }
   const gallery_cont = document.querySelectorAll(".gallery-cont > *");
-  gallery_cont.forEach((mediaEl)=>mediaEl.remove());
+  gallery_cont.forEach((mediaEl) => mediaEl.remove());
   dbCheck();
+}
+
+function downloadFnc(media, mediaType = 'image') {
+  if (mediaType == 'image') {
+    const imageUrl = media?.url;
+    const imageLink = document.createElement("a");
+    imageLink.href = imageUrl;
+    imageLink.download = `img-${media?.id}.png`;
+    imageLink.click();
+  } else {
+    const videoUrl = URL.createObjectURL(media?.blobData);
+    const videoLink = document.createElement("a");
+    videoLink.href = videoUrl;
+    videoLink.download = `video-${media?.id}.mp4`;
+    videoLink.click();
+  }
 }
