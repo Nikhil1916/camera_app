@@ -10,7 +10,7 @@ let filterColor = "transparent";
 const gallery_cont = document.querySelector(".gallery-cont");
 
 const constraints = {
-  audio: false,
+  audio: true,
   video: true
 }
 
@@ -42,6 +42,7 @@ navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
       let videoEntry = {
         id: videoID,
         blobData: blob,
+        updatedAt: new Date()
       };
       let addRequest = videoStore.add(videoEntry);
       addRequest.onsuccess = function () {
@@ -81,7 +82,8 @@ image_btn.addEventListener("click", function () {
     let imageStore = transaction.objectStore("image"); // (2)
     let imageEntry = {
       id: uid(),
-      url: imageUrl
+      url: imageUrl,
+      updatedAt: new Date()
     };
     let request = imageStore.add(imageEntry); // (3)
 
@@ -93,11 +95,6 @@ image_btn.addEventListener("click", function () {
       console.log("Error", request.error);
     };
   }
-  // const imageLink = document.createElement("a");
-  // imageLink.href = imageUrl;
-  // // console.log(imageUrl);
-  // imageLink.download = "myImg.jpeg";
-  // imageLink.click();
   setTimeout(() => {
     image_btn.classList.remove("scale-capture");
   }, 1000)

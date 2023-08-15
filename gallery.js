@@ -109,11 +109,13 @@ function downloadFnc(media, mediaType = 'image') {
     imageLink.href = imageUrl;
     imageLink.download = `img-${media?.id}.png`;
     imageLink.click();
+    imageLink.remove();
   } else {
     const videoUrl = URL.createObjectURL(media?.blobData);
     const videoLink = document.createElement("a");
     videoLink.href = videoUrl;
     videoLink.download = `video-${media?.id}.mp4`;
     videoLink.click();
+    videoLink.remove();
   }
 }
