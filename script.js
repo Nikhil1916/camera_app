@@ -36,7 +36,7 @@ navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
     let blob = new Blob(chunks, { mimeType: "video/mp4" });
     let videoUrl = URL.createObjectURL(blob);
     if (db) {
-      let videoID = uid();
+      let videoID = uid.rnd();
       let dbTransaction = db.transaction("video", "readwrite");
       let videoStore = dbTransaction.objectStore("video");
       let videoEntry = {
@@ -81,7 +81,7 @@ image_btn.addEventListener("click", function () {
     // get an object store to operate on it
     let imageStore = transaction.objectStore("image"); // (2)
     let imageEntry = {
-      id: uid(),
+      id: uid.rnd(),
       url: imageUrl,
       updatedAt: new Date()
     };
